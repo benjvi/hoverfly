@@ -15,18 +15,12 @@ dependencies:
     - go get github.com/aktau/github-release
 
   override:
-    - glide install:
-        pwd:
-          $GOPATH/src/github.com/${CIRCLE_PROJECT_USERNAME}
-    - go get -t -d -v ./... || echo 'go get failed':
-        pwd:
-          $GOPATH/src/github.com/${CIRCLE_PROJECT_USERNAME}
-   
+    - "cd $GOPATH/src/github.com/${CIRCLE_PROJECT_USERNAME} && glide install"          
+    - "cd $GOPATH/src/github.com/${CIRCLE_PROJECT_USERNAME && }go get -t -d -v ./... || echo 'go get failed'" 
+          
 test:
   override:
-    - go test -race -v:
-        pwd:
-          $GOPATH/src/github.com/${CIRCLE_PROJECT_USERNAME}
+    - "$GOPATH/src/github.com/${CIRCLE_PROJECT_USERNAME} && go test -race -v" 
  
 deployment:
   production:
