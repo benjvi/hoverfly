@@ -5,7 +5,7 @@ machine:
 checkout:
   post:
     - mkdir -p $GOPATH/src/github.com/${CIRCLE_PROJECT_USERNAME}/${CIRCLE_PROJECT_REPONAME} || echo "project dir already exists"
-    - sudo mv ${HOME}/${CIRCLE_PROJECT_REPONAME} $GOPATH/src/github.com/${CIRCLE_PROJECT_USERNAME}
+    - "sudo mv ${HOME}/${CIRCLE_PROJECT_REPONAME} $GOPATH/src/github.com/${CIRCLE_PROJECT_USERNAME} && mkdir ${HOME}/${CIRCLE_PROJECT_REPONAME}"
 
 dependencies:
   pre:
@@ -15,13 +15,12 @@ dependencies:
     - go get github.com/aktau/github-release
 
   override:
-    - "echo $GOPATH"
-    - "cd $GOPATH/src/github.com/${CIRCLE_PROJECT_USERNAME} && glide install"          
-    - "cd $GOPATH/src/github.com/${CIRCLE_PROJECT_USERNAME && }go get -t -d -v ./... || echo 'go get failed'" 
+    - "cd $GOPATH/src/github.com/${CIRCLE_PROJECT_USERNAME}/${CIRCLE_PROJECT_REPONAME} && glide install"
+    - "cd $GOPATH/src/github.com/${CIRCLE_PROJECT_USERNAME/${CIRCLE_PROJECT_REPONAME} && go get -t -d -v ./... || echo 'go get failed'"
           
 test:
   override:
-    - "$GOPATH/src/github.com/${CIRCLE_PROJECT_USERNAME} && go test -race -v" 
+    - "cd $GOPATH/src/github.com/${CIRCLE_PROJECT_USERNAME}/${CIRCLE_PROJECT_REPONAME} && go test -race -v"
  
 deployment:
   production:
