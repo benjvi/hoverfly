@@ -5,7 +5,7 @@ machine:
 checkout:
   post:
     - mkdir -p $GOPATH/src/github.com/SpectoLabs/${CIRCLE_PROJECT_REPONAME} || echo "project dir already exists"
-    - rsync -azC --delete ./ "$GOPATH/src/github.com/SpectoLabs/${CIRCLE_PROJECT_REPONAME} && mkdir ${HOME}/${CIRCLE_PROJECT_REPONAME}" 
+    - "rsync -azC --delete ./ $GOPATH/src/github.com/SpectoLabs/${CIRCLE_PROJECT_REPONAME} && mkdir ${HOME}/${CIRCLE_PROJECT_REPONAME}" 
 
 dependencies:
   pre:
