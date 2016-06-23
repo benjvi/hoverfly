@@ -15,6 +15,7 @@ dependencies:
     - go get github.com/aktau/github-release
 
   override:
+    - "echo $GOPATH"
     - "cd $GOPATH/src/github.com/${CIRCLE_PROJECT_USERNAME} && glide install"          
     - "cd $GOPATH/src/github.com/${CIRCLE_PROJECT_USERNAME && }go get -t -d -v ./... || echo 'go get failed'" 
           
