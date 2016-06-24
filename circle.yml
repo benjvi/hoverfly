@@ -20,7 +20,7 @@ dependencies:
   override:
     - go get github.com/aktau/github-release
     - go get github.com/mitchellh/gox
-    - "cd $GOPATH/src/github.com/SpectoLabs/${CIRCLE_PROJECT_REPONAME} && rm -rf vendor/ && glide up"
+    - "cd $GOPATH/src/github.com/SpectoLabs/${CIRCLE_PROJECT_REPONAME} && rm -rf vendor/ && glide install"
     - "cd $GOPATH/src/github.com/SpectoLabs/${CIRCLE_PROJECT_REPONAME} && go get -t -d -v ./... || echo 'go get failed'"
           
 test:
