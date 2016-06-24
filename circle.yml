@@ -1,6 +1,7 @@
 machine:
   environment:
     GOPATH: /home/ubuntu/.go_workspace
+    CLOUD_SDK_REPO: "cloud-sdk-$(lsb_release -c -s)"
 
 checkout:
   post:
@@ -9,19 +10,31 @@ checkout:
 
 dependencies:
   pre:
+    - echo "deb http://packages.cloud.google.com/apt $CLOUD_SDK_REPO main" | sudo tee /etc/apt/sources.list.d/google-cloud-sdk.list
+    - curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
     - sudo add-apt-repository -y ppa:masterminds/glide
     - sudo apt-get update
     - sudo apt-get install -y glide
-    - go get github.com/aktau/github-release
+    - sudo apt-get install google-cloud-sdk
 
   override:
+    - go get github.com/aktau/github-release
+    - go get github.com/mitchellh/gox
     - "cd $GOPATH/src/github.com/SpectoLabs/${CIRCLE_PROJECT_REPONAME} && rm -rf vendor/ && glide up"
     - "cd $GOPATH/src/github.com/SpectoLabs/${CIRCLE_PROJECT_REPONAME} && go get -t -d -v ./... || echo 'go get failed'"
           
 test:
   override:
-    - "cd $GOPATH/src/github.com/SpectoLabs/${CIRCLE_PROJECT_REPONAME} go test -race -v"
- 
+    - "cd $GOPATH/src/github.com/SpectoLabs/${CIRCLE_PROJECT_REPONAME} && go test -race -v"
+
+  post:
+    - "gsutil help"
+    - "gsutil init"
+    - "gsutil cp tgt/hoverfly_* gs://hoverfly-binaries/master/${CIRCLE_BUILD_NUM}-${CIRCLE_SHA1}":
+        pwd: "$GOPATH/src/github.com/SpectoLabs/${CIRCLE_PROJECT_REPONAME}"
+    - "gsutil cp tgt/hoverctl_* gs://hoverfly-binaries/master/${CIRCLE_BUILD_NUM}-${CIRCLE_SHA1}":
+        pwd: "$GOPATH/src/github.com/SpectoLabs/${CIRCLE_PROJECT_REPONAME}"
+
 deployment:
   production:
     branch: master
