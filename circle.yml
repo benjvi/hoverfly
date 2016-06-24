@@ -29,7 +29,7 @@ test:
 
   post:
     - "gsutil help"
-    - "gsutil init"
+    - "gcloud init"
     - "cd $GOPATH/src/github.com/SpectoLabs/${CIRCLE_PROJECT_REPONAME} && gsutil cp tgt/hoverfly_* gs://hoverfly-binaries/master/${CIRCLE_BUILD_NUM}-${CIRCLE_SHA1}"
     - "cd $GOPATH/src/github.com/SpectoLabs/${CIRCLE_PROJECT_REPONAME} && gsutil cp tgt/hoverctl_* gs://hoverfly-binaries/master/${CIRCLE_BUILD_NUM}-${CIRCLE_SHA1}"
 
