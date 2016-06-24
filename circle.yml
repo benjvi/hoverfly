@@ -30,10 +30,8 @@ test:
   post:
     - "gsutil help"
     - "gsutil init"
-    - "gsutil cp tgt/hoverfly_* gs://hoverfly-binaries/master/${CIRCLE_BUILD_NUM}-${CIRCLE_SHA1}":
-        pwd: "$GOPATH/src/github.com/SpectoLabs/${CIRCLE_PROJECT_REPONAME}"
-    - "gsutil cp tgt/hoverctl_* gs://hoverfly-binaries/master/${CIRCLE_BUILD_NUM}-${CIRCLE_SHA1}":
-        pwd: "$GOPATH/src/github.com/SpectoLabs/${CIRCLE_PROJECT_REPONAME}"
+    - "cd $GOPATH/src/github.com/SpectoLabs/${CIRCLE_PROJECT_REPONAME} && gsutil cp tgt/hoverfly_* gs://hoverfly-binaries/master/${CIRCLE_BUILD_NUM}-${CIRCLE_SHA1}"
+    - "cd $GOPATH/src/github.com/SpectoLabs/${CIRCLE_PROJECT_REPONAME} && gsutil cp tgt/hoverctl_* gs://hoverfly-binaries/master/${CIRCLE_BUILD_NUM}-${CIRCLE_SHA1}"
 
 deployment:
   production:
