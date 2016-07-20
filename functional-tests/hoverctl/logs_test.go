@@ -12,6 +12,7 @@ import (
 	"github.com/dghubble/sling"
 	"fmt"
 	"strings"
+	"time"
 )
 
 var _ = Describe("When I use hoverctl", func() {
@@ -52,6 +53,7 @@ var _ = Describe("When I use hoverctl", func() {
 		Context("the logs get captured in a .log file", func() {
 			BeforeEach(func() {
 				_, err := exec.Command(hoverctlBinary, "start", "--admin-port=" + adminPort, "--proxy-port=" + proxyPort).Output()
+				time.Sleep(1 * time.Second)
 				Expect(err).To(BeNil())
 			})
 
